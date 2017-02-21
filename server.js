@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var exphbs  = require('express-handlebars');
 // Requiring our Note and Article models
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
@@ -25,7 +26,11 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Make public a static dir
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Database configuration with mongoose
 mongoose.connect("mongodb://localhost/newsscrape");
@@ -47,7 +52,7 @@ db.once("open", function() {
 
 // Simple index route
 app.get("/", function(req, res) {
-  res.send("index.html");
+  res.render("index");
 });
 
 // A GET request to scrape the echojs website
@@ -78,7 +83,7 @@ app.get("/scrape", function(req, res) {
         }
         // Or log the doc
         else {
-          // console.log(doc);
+          console.log(doc);
         }
       });
 
@@ -86,6 +91,7 @@ app.get("/scrape", function(req, res) {
   });
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
+
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -154,20 +160,29 @@ app.post("/articles/:id", function(req, res) {
 });
 
 app.get("/saved", function(req, res) {
-  Article.find({"saved": true}, function(error, doc) {
-    // Log any errors
-    if (error) {
-      console.log(error);
-    }
-    // Or send the doc to the browser as a json object
-    else {
-      res.json(doc);
-    }
-  });
-})
+  // Grab every doc in the Articles array
+  Article.find({"saved": true}).then(function(result) {
+    res.render("saved", { saved_data: result});
+});
+});
 
 app.post("/saved/:id", function(req, res) {
   Article.findOneAndUpdate({ "_id": req.params.id }, {$set: {"saved": true}})
+
+  .exec(function(err, doc) {
+        // Log any errors
+        if (err) {
+          console.log(err);
+        }
+        else {
+          // Or send the document to the browser
+          res.send(doc);
+        }
+      })
+})
+
+app.post("/remove/:id", function(req, res) {
+  Article.findOneAndRemove({ "_id": req.params.id })
 
   .exec(function(err, doc) {
         // Log any errors

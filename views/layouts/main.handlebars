@@ -12,11 +12,11 @@
 	  <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">NewsScraper</a>
+      <a class="navbar-brand" href="/">NewsScraper</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Saved Articles</a></li>
+      <li class="active"><a href="/">Home</a></li>
+      <li id="save"><a href="/saved">Saved Articles</a></li>
     </ul>
   <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-info btn-lg" id="scrapeArticles" data-toggle="modal" data-target="#myModal">Scrape new articles</button>
@@ -27,12 +27,12 @@
     
       <!-- Modal content-->
       <div class="modal-content">
-        <!-- <div class="modal-header">
+        <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div> -->
+          <!-- <h4 class="modal-title">Modal Header</h4> -->
+        </div>
         <div class="modal-body">
-          <h1>Added 20 new articles!</h1>
+          <h1>Added 27 new articles!</h1>
         </div>
 <!--         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -44,20 +44,9 @@
   </div>
 </nav>
 
-<div class="container">
-  <div class="jumbotron">
-    <h1>Bootstrap Tutorial</h1> 
-  </div>
-  </div>
+{{{body}}}
 
-  <div id="wrapper">
-      <!-- <h1>No articles</h1> -->
-
-      <div id="articles"></div>
-      <div id="notes"></div>
-    </div>
-
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="jumbotron">
+    <h1>Saved Articles</h1> 
+  </div>
+  </div>
+
+  <div id="wrapper">
+
+      <div id="saved">
+      	{{#each saved_data}}
+      	<div class='panel panel-default' id='{{this._id}}'>
+      	<div class='panel-heading '>
+      	<h3 class='panel-title pull-left'>{{this.title}}</h3><button class='btn btn-default pull-right' data-id='{{this._id}}'>Article Notes</button><button class='btn btn-default pull-right delete' data-id='{{this._id}}'>Delete from saved</button>
+      	<div class='clearfix'></div>
+      	</div>
+      	<div class='panel-body'>{{this.link}}</div></div>
+      	{{/each}}
+      </div>
+
+    </div>

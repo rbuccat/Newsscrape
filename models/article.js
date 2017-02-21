@@ -8,12 +8,15 @@ var ArticleSchema = new Schema({
   // title is a required string
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    dropDups: true
   },
   // link is a required string
   link: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   // This only saves one note's ObjectId, ref refers to the Note model
   note: {

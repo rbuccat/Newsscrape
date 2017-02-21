@@ -1,23 +1,20 @@
-$("#scrapeArticles").on('click', function(e){
-   $.ajax({
+function getArticles(){
+  $.ajax({
     method: "GET",
     url: "/scrape"
 })
    .done(function(data){
-    //console.log(data)
-      $.ajax({
+        $.ajax({
     method: "GET",
-    url: "/articles",
+    url: "/articles"
 })
-   .done(function(data){
-    //console.log(data)
-       e.preventDefault();
-    window.location.reload();
-   })
-   })
-   
+   .done(function(data){})
 })
+}
 
+getArticles(); 
+
+$("#scrapeArticles").on('click', function(){
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
@@ -26,20 +23,35 @@ $.getJSON("/articles", function(data) {
     $("#articles").append("<div class='panel panel-default'><div class='panel-heading '><h3 class='panel-title pull-left'>" + data[i].title + "</h3><button class='btn btn-default savearticle pull-right' data-id='" + data[i]._id + "'>Save Article</button><div class='clearfix'></div></div><div class='panel-body'>" + data[i].link + "</div></div>");
   }
 }); 
+})
 
-$(".savearticle").on('click', function(){
-
+$(document).on('click', ".savearticle", function(){
   var thisId = $(this).attr("data-id");
-
+  $(this).parent('div').parent('div').remove();
+console.log(thisId);
   $.ajax({
     method: "POST",
     url: "/saved/" + thisId
 })
   .done(function(data){
-    console.log(data);
+    $.ajax({
+    method: "GET",
+    url: "/saved"
+})
+   .done(function(data){})
   })
-})  
+})
 
+$(document).on('click', ".delete", function(){
+  var thisId = $(this).attr("data-id");
+  $(this).parent('div').parent('div').remove();
+$.ajax({
+    method: "POST",
+    url: "/remove/" + thisId
+})
+  .done(function(data){
+})
+});  
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
